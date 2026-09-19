@@ -940,6 +940,97 @@ class CommitStepRealGit(unittest.TestCase):
     def remote_main(self):
         return _git(self.root, "ls-remote", "origin", "refs/heads/main").split()[0]
 
+    def advance_remote(self):
+        """다른 수집기가 main 에 먼저 저장하는 상황. 실제 Git, 외부 요청 없음."""
+        other = tempfile.mkdtemp(prefix="gaeo-other-writer-")
+        try:
+            _git(other, "clone", "-q", "--branch", "main", self.origin, ".")
+            _git(other, "config", "user.name", "t")
+            _git(other, "config", "user.email", "t@example.com")
+            with open(os.path.join(other, "data.js"), "w", encoding="utf-8") as fh:
+                fh.write("// other writer\n")
+            _git(other, "add", "data.js")
+            _git(other, "commit", "-q", "-m", "other writer")
+            _git(other, "push", "-q", "origin", "main")
+        finally:
+            shutil.rmtree(other)
+
+    def run_saved(self, outputs, inbox=""):
+        body = _step_body("저장 확인", "REMOTE=")
+        values = {"steps.commit.outputs.committed": outputs.get("committed", ""),
+                  "steps.commit.outputs.pushed": outputs.get("pushed", ""),
+                  "steps.commit.outputs.nothing": outputs.get("nothing", ""),
+                  "steps.inboxsave.outputs.branch": ""}
+        for key, value in values.items():
+            body = body.replace("${{ " + key + " }}", value)
+        self.write("runner_temp/inbox_branches.txt", inbox + "\n" if inbox else "")
+        out = os.path.join(self.root, "_saved_output")
+        env = dict(os.environ, GITHUB_OUTPUT=out, RUNNER_TEMP=os.path.join(self.root, "runner_temp"),
+                   GITHUB_STEP_SUMMARY=os.path.join(self.root, "summary.md"),
+                   PATH=self.bin + os.pathsep + os.environ.get("PATH", ""))
+        r = subprocess.run(["bash", "-e", "-c", body], cwd=self.root, capture_output=True, text=True, env=env)
+        return r
+
+    def new_result(self):
+        self.write("docs/audits/validation_runs/VS-T/20260918T170500.json", '{"status": "COMPLETED"}')
+
+    def test_G_rebase_뒤_실제로_push한_SHA를_전달한다(self):
+        self.advance_remote()
+        self.new_result()
+        r, kv = self.run_step()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("재시도", r.stdout)
+        self.assertEqual(kv["committed"], self.remote_main(), "rebase 전 SHA 로는 main 포함성을 증명할 수 없다")
+        saved = self.run_saved(kv)
+        self.assertEqual(saved.returncode, 0, saved.stdout + saved.stderr)
+        self.assertIn("✔ main 에 있음", saved.stdout)
+
+    def test_H_push_뒤_main이_전진해도_되읽기로_포함성을_확인한다(self):
+        self.new_result()
+        _, kv = self.run_step()
+        self.advance_remote()  # 원격 새 객체는 아직 로컬에 없다
+        saved = self.run_saved(kv)
+        self.assertEqual(saved.returncode, 0, saved.stdout + saved.stderr)
+        self.assertIn("✔ main 에 있음", saved.stdout)
+
+    def test_I_main에_기록이_없으면_inbox를_지우지_않는다(self):
+        self.new_result()
+        _git(self.root, "add", "docs/audits/validation_runs")
+        _git(self.root, "commit", "-q", "-m", "inbox only")
+        sha = _git(self.root, "rev-parse", "HEAD")
+        branch = "validation-inbox-999"
+        _git(self.root, "push", "-q", "origin", "HEAD:refs/heads/" + branch)
+        # 성공 플래그만으로 삭제하지 말고 main 포함 사실을 다시 확인해야 한다.
+        saved = self.run_saved({"committed": sha, "pushed": "true"}, branch)
+        self.assertNotEqual(saved.returncode, 0, saved.stdout + saved.stderr)
+        self.assertTrue(_git(self.root, "ls-remote", "origin", "refs/heads/" + branch))
+
+    def test_J_main_조회실패면_inbox를_보존한다(self):
+        self.new_result()
+        _, kv = self.run_step()
+        branch = "validation-inbox-999"
+        _git(self.root, "push", "-q", "origin", "HEAD:refs/heads/" + branch)
+        git_binary = shutil.which("git")
+        shim = os.path.join(self.bin, "git")
+        with open(shim, "w", encoding="utf-8") as fh:
+            fh.write('#!/bin/sh\ncase "$1" in fetch|ls-remote) exit 1;; esac\nexec "' + git_binary + '" "$@"\n')
+        os.chmod(shim, 0o755)
+        saved = self.run_saved(kv, branch)
+        self.assertNotEqual(saved.returncode, 0, saved.stdout + saved.stderr)
+        self.assertIn("미확인", saved.stdout)
+        self.assertTrue(_git(self.root, "ls-remote", "origin", "refs/heads/" + branch))
+
+    def test_K_main_포함이_확인된_inbox만_정리한다(self):
+        self.new_result()
+        _, kv = self.run_step()
+        branch = "validation-inbox-999"
+        _git(self.root, "push", "-q", "origin", "HEAD:refs/heads/" + branch)
+        self.advance_remote()
+        saved = self.run_saved(kv, branch)
+        self.assertEqual(saved.returncode, 0, saved.stdout + saved.stderr)
+        self.assertIn("✔ main 에 있음", saved.stdout)
+        self.assertFalse(_git(self.root, "ls-remote", "origin", "refs/heads/" + branch))
+
     # ---- A. 선택 경로가 없어도 점검 기록은 저장된다 (이번 사고의 재현) ----
     def test_A_official_prices가_없어도_점검기록이_커밋된다(self):
         self.assertFalse(os.path.exists(os.path.join(self.root, "official_prices")))
@@ -1133,16 +1224,20 @@ class WorkflowContract(unittest.TestCase):
         # C3: inbox 회수 → 실행기 → 커밋(continue-on-error) → inbox 보존 → artifact → 저장 확인 → 이슈(always) → 판정(always)
         for needle in ("run_validation_schedule.py --reconcile-inbox", "id: commit", "continue-on-error: true",
                        "steps.commit.outcome == 'failure'", "validation-inbox-${GITHUB_RUN_ID}", "actions/upload-artifact@v4",
-                       "retention-days: 90", "git ls-remote origin refs/heads/main", "저장 확인", "원격 저장",
+                       "retention-days: 90", "timeout 120 git fetch origin main", "저장 확인", "원격 저장",
                        "if: always() && env.APPLY == 'true' && (steps.vs.outputs.notify == 'true'",
                        "if: always() && env.APPLY == 'true' && steps.ops.outputs.code != '2'",
-                       'COMMIT_OUTCOME: ${{ steps.commit.outcome }}'):
+                       'COMMIT_OUTCOME: ${{ steps.commit.outcome }}',
+                       'SAVE_OUTCOME: ${{ steps.saved.outcome }}'):
             self.assertIn(needle, self.body, needle)
         order = [self.body.index(k) for k in ("--reconcile-inbox", "run_validation_schedule.py $args", "id: commit",
                                               "id: inboxsave", "upload-artifact", "id: saved", "예정 시험 이슈 갱신", "결과 판정")]
         self.assertEqual(order, sorted(order), "스텝 순서: 회수 → 실행 → 커밋 → 보존 → artifact → 저장 확인 → 이슈 → 판정")
         # inbox 브랜치 삭제는 main 저장이 확인된 뒤에만
-        self.assertIn('if [ "$P" = "true" ] && [ -s "$RUNNER_TEMP/inbox_branches.txt" ]', self.body)
+        saved = _step_body("저장 확인", "REMOTE=")
+        self.assertIn('git rev-parse refs/remotes/origin/main', saved)
+        self.assertIn('git merge-base --is-ancestor "$C" "$R"', saved)
+        self.assertIn('if [ "$verified" = "true" ] && [ -s "$RUNNER_TEMP/inbox_branches.txt" ]', saved)
 
     def test_LLM_호출이_없다(self):
         for bad in ("anthropic", "openai", "claude", "gpt", "api.openai", "messages.create"):
@@ -1520,7 +1615,7 @@ class FinalJudgementSeparatesVerdictFromExecution(_StepHarness):
     STEP_NEEDLE = "예정 시험 실행기 종료코드"
 
     def judge(self, **env):
-        base = dict(CODE="0", COMMIT_OUTCOME="success", VS_LOG="ok", OPS_CODE="0", OPS_LOG="ok", OPS_REPORT="ok")
+        base = dict(CODE="0", COMMIT_OUTCOME="success", SAVE_OUTCOME="success", VS_LOG="ok", OPS_CODE="0", OPS_LOG="ok", OPS_REPORT="ok")
         base.update(env)
         return self.run_step(**base)
 
@@ -1537,6 +1632,11 @@ class FinalJudgementSeparatesVerdictFromExecution(_StepHarness):
     def test_저장_실패는_계속_빨갛다(self):
         r, _ = self.judge(COMMIT_OUTCOME="failure")
         self.assertEqual(r.returncode, 1)
+
+    def test_push_성공이라도_되읽기_실패면_빨갛다(self):
+        r, _ = self.judge(SAVE_OUTCOME="failure")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("main 저장 되읽기", r.stdout)
 
     def test_점검이_찾은_장애는_run_을_빨갛게_만들지_않는다(self):
         # 기존 설계: 점검 대상의 장애는 제목 고정 이슈로 알린다. 여기서 run 을 실패시키라는 뜻이 아니다.

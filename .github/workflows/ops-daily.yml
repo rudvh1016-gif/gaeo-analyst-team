@@ -273,6 +273,8 @@ jobs:
             echo "push 거부/지연 — 원격 반영 후 재시도 ($i/4)"; sleep $((2 ** i))
             timeout 120 git fetch origin main || continue
             git rebase origin/main || { git rebase --abort; echo "::error::rebase 충돌 — 이번 기록 커밋 보류(다음 run 이 다시 만든다)"; exit 1; }
+            # rebase 는 커밋 SHA 를 바꾼다. 저장 확인·inbox 보존에 옛 SHA 를 넘기지 않는다.
+            echo "committed=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           done
           echo "::error::push 4회 실패 — 아래 보존 스텝이 inbox 브랜치·artifact 로 남긴다"; exit 1
 
@@ -312,9 +314,16 @@ jobs:
           IB="${{ steps.inboxsave.outputs.branch }}"
           FILES=$(ls docs/audits/validation_runs/*/*.json 2>/dev/null | wc -l | tr -d ' ')
           REMOTE="✗ 미확인"
+          verified=false
           if [ "$P" = "true" ] && [ -n "$C" ]; then
-            R=$(timeout 60 git ls-remote origin refs/heads/main | cut -f1)
-            if [ "$R" = "$C" ] || git merge-base --is-ancestor "$C" "$R" 2>/dev/null; then REMOTE="✔ main 에 있음($C)"; else REMOTE="✗ main 에서 못 찾음($C ≠ $R)"; fi
+            # push 직후 다른 수집기가 main 을 전진시킬 수 있다. SHA 문자열만 읽으면 새 객체가
+            # 로컬에 없어 포함성 검사가 실패한다. 실제 main 객체를 되읽고 확인한 뒤에만 inbox 를 지운다.
+            if timeout 120 git fetch origin main; then
+              R=$(git rev-parse refs/remotes/origin/main)
+              if [ "$R" = "$C" ] || git merge-base --is-ancestor "$C" "$R" 2>/dev/null; then
+                REMOTE="✔ main 에 있음($C)"; verified=true
+              else REMOTE="✗ main 에서 못 찾음($C ≠ $R)"; fi
+            else REMOTE="✗ main 조회 실패 — 저장 여부 미확인, inbox 보존"; fi
           elif [ -n "$IB" ]; then REMOTE="△ inbox 브랜치 $IB 에만 있음(다음 run 이 --reconcile-inbox 로 회수)"
           elif [ "$N" = "true" ]; then REMOTE="— 변경 없음(커밋 없음)"
           elif [ -z "$C" ]; then REMOTE="✗ 커밋 자체가 없음 — artifact 만 보존, 자동 회수 경로 없음(사람이 내려받아 넣어야 한다)"
@@ -328,8 +337,12 @@ jobs:
             echo "- 사람 전달: 아래 이슈 스텝 결과 참조"
           } | tee -a "$GITHUB_STEP_SUMMARY"
           echo "remote=$REMOTE" >> "$GITHUB_OUTPUT"
+          echo "verified=$verified" >> "$GITHUB_OUTPUT"
           # main 저장이 확인된 뒤에만 회수한 inbox 브랜치를 지운다(지우기 전엔 언제든 다시 회수할 수 있다).
-          if [ "$P" = "true" ] && [ -s "$RUNNER_TEMP/inbox_branches.txt" ]; then
+          if [ "$P" = "true" ] && [ "$verified" != "true" ]; then
+            echo "::error::main 저장을 되읽어 확인하지 못했다 — inbox 를 보존하고 마지막 판정에서 실패로 알린다"; exit 1
+          fi
+          if [ "$verified" = "true" ] && [ -s "$RUNNER_TEMP/inbox_branches.txt" ]; then
             while read -r b; do [ -n "$b" ] && timeout 60 git push origin --delete "$b" && echo "inbox 브랜치 삭제: $b"; done < "$RUNNER_TEMP/inbox_branches.txt"
           fi
 
@@ -391,6 +404,7 @@ jobs:
         env:
           CODE: ${{ steps.vs.outputs.code }}
           COMMIT_OUTCOME: ${{ steps.commit.outcome }}
+          SAVE_OUTCOME: ${{ steps.saved.outcome }}
           VS_LOG: ${{ steps.vs.outputs.log }}
           OPS_CODE: ${{ steps.ops.outputs.code }}
           OPS_LOG: ${{ steps.ops.outputs.log }}
@@ -402,6 +416,7 @@ jobs:
           echo "통합 점검 전달 판정: ${OPS_CODE:-없음} (0 정상 · 1 장애 · 2 확인 불가) · 보고서 ${OPS_REPORT:-없음}"
           if [ "${CODE:-1}" != "0" ]; then echo "::error::예정 시험 실행기 종료코드 ${CODE:-없음} — 위 요약과 이슈를 확인"; fail=1; fi
           if [ "$COMMIT_OUTCOME" = "failure" ]; then echo "::error::기록 저장(main push) 실패 — inbox/artifact 보존 여부를 요약에서 확인"; fail=1; fi
+          if [ "$SAVE_OUTCOME" = "failure" ]; then echo "::error::main 저장 되읽기·보존 확인 실패 — 위 저장 확인 요약을 확인"; fail=1; fi
           # 로그 기록(tee) 실패·보고서 누락은 "점검 결과"가 아니라 별개의 실행 문제다 — 기록·알림을 다 마친 뒤 여기서 드러낸다.
           if [ "$OPS_LOG" = "fail" ] || [ "$VS_LOG" = "fail" ]; then
             echo "::error::요약 로그 기록 실패 — 판정과 별개의 실행 문제다(점검 ${OPS_LOG:-—} · 실행기 ${VS_LOG:-—})"; fail=1
